@@ -1,83 +1,96 @@
-#include <stdarg.h>
-#include <unistd.h>
-#include <stdarg.h>
 #include "main.h"
 /**
-* _putchar - writes the character c to stdout
-* @c: The character to print
-*
-* Return: On success 1.
-* On error, -1 is returned, and errno is set appropriately.
-*/
-int _putchar(char c)
-{
-	return (write(1, &c, 1));
-}
-
-/**
-* print_number - prints an integer
-* @n: integer to be printed
-*
-* Return: void
-*/
-
-void print_number(int n)
-{
-unsigned int i = n;
-
-if (n < 0)
-{
-	_putchar('-');
-	i = -n;
-}
-
-if ((i / 10) > 0)
-{
-	print_number(i / 10);
-}
-
-_putchar((i % 10) + '0');
-
-return;
-}
-
-/**
-* print_char - Prints a char.
-* @arg: A list of arguments pointing to
-*       the character to be printed.
-*/
-void print_char(va_list ap)
-{
-	char letter;
-
-	letter = va_arg(ap, int);
-	_putchar(letter);
-}
-
-/**
- * print_int - Prints an int.
- * @arg: A list of arguments pointing to
- *       the integer to be printed.
+ * printf_per - prints the %.
+ * Return: 1.
  */
-void print_int(va_list ap)
+int printf_per(void)
 {
-	int num;
-
-	num = va_arg(ap, int);
-	print_number(num);
+	_putchar(37);
+	return (1);
 }
 
-void print_string(va_list ap)
+/**
+ * printf_char - prints a char.
+ * @val: arguments.
+ * Return: 1.
+ */
+int printf_char(va_list val)
 {
-	char *str;
-	int index;
-	
-	str = va_arg(ap, char *);
-	if (str != NULL)
+	char s;
+
+	s = va_arg(val, int);
+	_putchar(s);
+	return (1);
+}
+
+/**
+ * printf_string - print a string.
+ * @val: argument.
+ * Return: the length of the string.
+ */
+int printf_string(va_list val)
+{
+	char *s;
+	int i, len;
+
+	s = va_arg(val, char *);
+	if (s == NULL)
 	{
-		for (index = 0; str[index]; index++)
+		s = "(null)";
+		len = _strlen(s);
+		for (i = 0; i < len; i++)
+			_putchar(s[i]);
+		return (len);
+	}
+	else
+	{
+		len = _strlen(s);
+		for (i = 0; i < len; i++)
+			_putchar(s[i]);
+		return (len);
+	}
+}
+
+/**
+ * printf_int - prints integer
+ * @args: argument to print
+ * Return: number of characters printed
+ */
+int printf_int(va_list args)
+{
+	int n = va_arg(args, int);
+	int num, last = n % 10, digit, exp = 1;
+	int  i = 1;
+
+	n = n / 10;
+	num = n;
+
+	if (last < 0)
+	{
+		_putchar('-');
+		num = -num;
+		n = -n;
+		last = -last;
+		i++;
+	}
+	if (num > 0)
+	{
+		while (num / 10 != 0)
 		{
-			_putchar(str[index]);
+			exp = exp * 10;
+			num = num / 10;
+		}
+		num = n;
+		while (exp > 0)
+		{
+			digit = num / exp;
+			_putchar(digit + '0');
+			num = num - (digit * exp);
+			exp = exp / 10;
+			i++;
 		}
 	}
+	_putchar(last + '0');
+
+	return (i);
 }
