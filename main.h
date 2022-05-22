@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <unistd.h>
+#include <limits.h>
 
 /**
  * struct format - match the conversion specifiers for printf
@@ -20,7 +21,7 @@ typedef struct format
 
 int printf_int(va_list args);
 int _strlen(char *s);
-int printf_per(void);
+int printf_37(void);
 int printf_char(va_list val);
 int printf_string(va_list val);
 int _putchar(char c);
